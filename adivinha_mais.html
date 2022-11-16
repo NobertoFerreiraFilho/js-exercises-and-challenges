@@ -1,0 +1,138 @@
+<head>
+  <meta charset="UTF-8" />
+
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin: 1rem;
+      padding: 1rem;
+      height: 300px;
+      width: auto;
+      max-width: 600px;
+      border: 1px solid darkgray;
+      background-color: lightgray;
+      border-radius: 10px;
+    }
+    #container__input {
+      margin: 1rem;
+      padding: 1rem;
+      width: 80%;
+      max-width: 400px;
+      font-size: 1rem;
+    }
+
+    #container__input::placeholder {
+      color: lightgray;
+    }
+
+    .container__button {
+      padding: 1rem;
+      border: 1px solid darkgray;
+      border-radius: 10px;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      background-color: darkgray;
+      cursor: pointer;
+    }
+
+    #container__segredo {
+      font-weight: bold;
+      font-size: 2rem;
+      color: rgb(51, 50, 50);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <label></label>
+    <input
+      type="text"
+      id="container__input"
+      placeholder="Tente adivinhar 1 número digitando aqui"
+    />
+    <p class="container__button">Compare com o meu segredo</p>
+    <p id="container__segredo"></p>
+  </div>
+
+  <script>
+    function sorteia() {
+      return Math.round(Math.random() * 10);
+    }
+
+    function sorteiaNumeros(quantidade) {
+      var segredos = [];
+
+      var numero = 1;
+
+      while (numero <= quantidade) {
+        var numeroAleatorio = sorteia();
+
+        if (numeroAleatorio !== 0) {
+          var achou = false;
+
+          for (var posicao = 0; posicao < segredos.length; posicao++) {
+            if (segredos[posicao] == numeroAleatorio) {
+              achou = true;
+              break;
+            }
+          }
+
+          if (achou == false) {
+            segredos.push(numeroAleatorio);
+            numero++;
+          }
+        }
+      }
+
+      return segredos;
+    }
+
+    var segredos = sorteiaNumeros(5);
+
+    console.log(segredos);
+
+    var input = document.querySelector("input");
+    input.focus();
+
+    function mostrarSegredo(text) {
+      document.getElementById("container__segredo").innerHTML = text;
+    }
+
+    function verifica() {
+      mostrarSegredo("");
+      if (input.value === "") {
+        return alert("Digite um número antes de clicar!");
+      } else {
+        var achou = false;
+        for (var posicao = 0; posicao < segredos.length; posicao++) {
+          if (input.value == segredos[posicao]) {
+            var text =
+              "Você acertou! Você disse " +
+              input.value +
+              " e o segredo era: " +
+              segredos;
+            mostrarSegredo(text);
+            achou = true;
+            break;
+          }
+        }
+
+        if (achou == false) {
+          var text = "Você errou! Tente de novo!";
+          mostrarSegredo(text);
+        }
+      }
+      input.value = "";
+      input.focus();
+    }
+
+    var button = document.querySelector(".container__button");
+
+    button.onclick = verifica;
+
+  </script>
+</body>
