@@ -12,13 +12,23 @@ botaoAdicionar.addEventListener("click", function (event) {
   if (erros.length > 0) {
     exibeMensagemDeErro(erros);
   } else {
-    var pacienteAdicionadoTR = montaTR(pacienteAdicionado);
-    var tabela = document.querySelector("#tabela-pacientes");
-    tabela.appendChild(pacienteAdicionadoTR);
+
+    adicionaPacienteNaTabela(paciente);
+
     form.reset();
     document.querySelector('#mensagens-erro').innerHTML = "";
   }
 });
+
+
+
+function adicionaPacienteNaTabela(paciente){
+  var pacienteAdicionadoTR = montaTR(paciente);
+  var tabela = document.querySelector("#tabela-pacientes");
+  tabela.appendChild(pacienteAdicionadoTR);
+}
+
+
 
 function obtemPacienteDoFormulario(form) {
   var paciente = {
